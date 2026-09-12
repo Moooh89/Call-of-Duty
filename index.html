@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>کالاف جم</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#080808;color:white;font-family:Tahoma,Arial,sans-serif;min-height:100vh}
+#welcome{position:fixed;inset:0;background:#050505;display:flex;align-items:center;justify-content:center;z-index:1000;animation:welcomeOut 1s ease 2.2s forwards}
+#welcome h1{font-size:35px;color:white;animation:welcomeIn 1.2s ease}
+@keyframes welcomeIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+@keyframes welcomeOut{to{opacity:0;visibility:hidden}}
+header{padding:22px 15px;text-align:center;background:#0d0d0d;border-bottom:1px solid #222}
+.logo{font-size:30px;font-weight:bold;letter-spacing:1px}.subtitle{margin-top:7px;color:#aaa;font-size:13px}
+.container{padding:15px;max-width:1100px;margin:auto}
+.products{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.card{background:#151515;border:1px solid #252525;border-radius:12px;overflow:hidden;text-align:center;padding-bottom:10px;transition:.2s}
+.card:hover{transform:translateY(-3px);border-color:#555}.card img{width:100%;height:105px;object-fit:cover;display:block}
+.cp{font-size:16px;font-weight:bold;margin:9px 3px 5px}.price{color:#ddd;font-size:13px;margin-bottom:8px}
+.select-btn{width:85%;border:none;border-radius:8px;padding:8px 3px;background:#292929;color:white;cursor:pointer;font-size:13px}
+.select-btn:active{transform:scale(.96)}
+.cart-box{margin-top:25px;background:#111;border:1px solid #282828;border-radius:14px;padding:16px}
+.cart-title{font-size:20px;font-weight:bold;margin-bottom:12px}
+.cart-item{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid #252525;font-size:13px}
+.qty{display:flex;align-items:center;gap:7px}.qty button{width:28px;height:28px;border:none;border-radius:6px;background:#292929;color:white;font-size:18px}
+.total{margin-top:15px;font-size:18px;font-weight:bold}
+.discount-area{display:flex;gap:7px;margin-top:14px}.discount-area input{flex:1;background:#1b1b1b;color:white;border:1px solid #333;border-radius:8px;padding:11px;outline:none;direction:ltr}
+.discount-area button{border:none;border-radius:8px;padding:0 15px;background:#303030;color:white}
+.discount-message{margin-top:8px;font-size:13px;color:#bbb}
+.order-form{display:none;margin-top:20px;background:#111;border:1px solid #282828;border-radius:14px;padding:16px}
+.order-form h2{margin-bottom:15px}.order-form input{width:100%;margin-bottom:10px;background:#1a1a1a;color:white;border:1px solid #333;border-radius:8px;padding:12px;outline:none}
+.account-type{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.account-type label{background:#1a1a1a;border:1px solid #333;border-radius:8px;padding:12px;text-align:center;cursor:pointer}
+.account-type input{display:none}.account-type input:checked+span{color:white;font-weight:bold}
+.security-message{background:#181818;border:1px solid #333;border-radius:9px;padding:12px;margin-bottom:12px;line-height:1.8;font-size:13px;color:#ddd}
+.submit-btn{width:100%;border:none;border-radius:9px;padding:13px;background:#292929;color:white;font-size:15px;cursor:pointer}
+.empty{color:#777;font-size:13px}
+@media(max-width:600px){.products{grid-template-columns:repeat(4,1fr);gap:7px}.card{border-radius:8px}.card img{height:78px}.cp{font-size:12px}.price{font-size:10px}.select-btn{font-size:10px;padding:6px 2px}.logo{font-size:25px}}
+</style>
+</head>
+<body>
+<div id="welcome"><h1>به کالاف جم خوش آمدید</h1></div>
+<header><div class="logo">کالاف جم</div><div class="subtitle">فروش CP کالاف دیوتی موبایل</div></header>
+<div class="container">
+<div class="products" id="products"></div>
+<div class="cart-box">
+<div class="cart-title">🛒 سبد خرید</div>
+<div id="cartItems"><div class="empty">سبد خرید خالی است.</div></div>
+<div class="total">مبلغ کل: <span id="total">۰</span> تومان</div>
+<div class="discount-area"><input id="discountCode" placeholder="مثلاً HD2P50"><button onclick="applyDiscount()">اعمال</button></div>
+<div class="discount-message" id="discountMessage"></div>
+<button class="submit-btn" style="margin-top:15px;" onclick="showOrderForm()">ادامه و ثبت درخواست خرید</button>
+</div>
+<div class="order-form" id="orderForm">
+<h2>📝 ثبت درخواست خرید</h2>
+<input id="firstName" placeholder="نام"><input id="lastName" placeholder="نام خانوادگی"><input id="phone" type="tel" placeholder="شماره موبایل">
+<div class="account-type"><label><input type="radio" name="account" value="اکتیویژن"><span>سیو روی اکتیویژن</span></label><label><input type="radio" name="account" value="گوگل"><span>سیو روی گوگل</span></label></div>
+<input id="gameName" placeholder="نام داخل بازی">
+<div class="security-message">🔐 برای حفظ امنیت حساب شما، اطلاعات ورود خود را داخل سایت وارد نکنید. پس از ثبت سفارش، برای هماهنگی ادامه فرایند با پشتیبانی تماس بگیرید.</div>
+<button class="submit-btn" onclick="submitOrder()">ثبت درخواست خرید</button>
+</div>
+</div>
+<script>
+const products=[[80,456000],[160,663000],[240,870000],[320,1077000],[400,1284000],[420,1387000],[480,1491000],[500,1646000],[560,1698000],[580,1783000],[660,1890000],[720,2022000],[740,2039000],[800,2000000],[880,2049000],[960,2119000],[1040,2247000],[1120,2549000],[1300,3049000],[1760,3547000],[2400,3949000],[5000,8099000],[5220,8099000],[5880,9749000],[7400,11399000],[10800,15899000]];
+let cart={},discount=0;
+const productsBox=document.getElementById("products");
+products.forEach((product,index)=>{const cp=product[0],price=product[1],card=document.createElement("div");card.className="card";card.innerHTML=`<img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=500&q=80" alt="Call of Duty"><div class="cp">${cp.toLocaleString("fa-IR")} CP</div><div class="price">${price.toLocaleString("fa-IR")} تومان</div><button class="select-btn" onclick="addToCart(${index})">+ انتخاب</button>`;productsBox.appendChild(card)});
+function addToCart(index){if(!cart[index])cart[index]=1;else cart[index]++;renderCart()}
+function decrease(index){if(cart[index]>1)cart[index]--;else delete cart[index];renderCart()}
+function renderCart(){const cartItems=document.getElementById("cartItems");cartItems.innerHTML="";let total=0,hasItems=false;Object.keys(cart).forEach(index=>{hasItems=true;const qty=cart[index],cp=products[index][0],price=products[index][1];total+=price*qty;const item=document.createElement("div");item.className="cart-item";item.innerHTML=`<div>${cp.toLocaleString("fa-IR")} CP × ${qty.toLocaleString("fa-IR")}</div><div class="qty"><button onclick="addToCart(${index})">+</button><span>${qty.toLocaleString("fa-IR")}</span><button onclick="decrease(${index})">−</button></div>`;cartItems.appendChild(item)});if(!hasItems)cartItems.innerHTML='<div class="empty">سبد خرید خالی است.</div>';let finalTotal=Math.max(0,total-discount);document.getElementById("total").textContent=finalTotal.toLocaleString("fa-IR")}
+function applyDiscount(){const code=document.getElementById("discountCode").value.trim().toUpperCase(),message=document.getElementById("discountMessage"),match=code.match(/^HD2P(\d+)$/);if(!match){discount=0;message.textContent="کد تخفیف نامعتبر است.";renderCart();return}const amount=parseInt(match[1])*1000;let total=0;Object.keys(cart).forEach(index=>{total+=products[index][1]*cart[index]});if(total===0){discount=0;message.textContent="ابتدا یک محصول به سبد خرید اضافه کنید.";renderCart();return}discount=Math.min(amount,total);message.textContent=`${discount.toLocaleString("fa-IR")} تومان تخفیف اعمال شد.`;renderCart()}
+function showOrderForm(){if(Object.keys(cart).length===0){alert("سبد خرید شما خالی است.");return}document.getElementById("orderForm").style.display="block";document.getElementById("orderForm").scrollIntoView({behavior:"smooth"})}
+function submitOrder(){if(Object.keys(cart).length===0){alert("سبد خرید خالی است.");return}const firstName=document.getElementById("firstName").value.trim(),lastName=document.getElementById("lastName").value.trim(),phone=document.getElementById("phone").value.trim(),gameName=document.getElementById("gameName").value.trim(),account=document.querySelector('input[name="account"]:checked');if(!firstName||!lastName||!phone||!gameName||!account){alert("لطفاً اطلاعات خواسته‌شده را کامل کنید.");return}alert("درخواست خرید شما ثبت شد.\n\nلطفاً برای هماهنگی ادامه سفارش با پشتیبانی تماس بگیرید.")}
+renderCart();
+</script>
+</body>
+</html>
