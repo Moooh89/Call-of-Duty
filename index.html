@@ -4,97 +4,1089 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>کالاف جم</title>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0}body{background:#080808;color:white;font-family:Tahoma,Arial,sans-serif;min-height:100vh}
-#welcome{position:fixed;inset:0;background:#050505;display:flex;align-items:center;justify-content:center;z-index:1000;animation:welcomeOut 1s ease 2.2s forwards}
-#welcome h1{font-size:35px;color:white;animation:welcomeIn 1.2s ease}@keyframes welcomeIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}@keyframes welcomeOut{to{opacity:0;visibility:hidden}}
-header{padding:22px 15px;text-align:center;background:#0d0d0d;border-bottom:1px solid #222}.logo{font-size:30px;font-weight:bold;letter-spacing:1px}.subtitle{margin-top:7px;color:#aaa;font-size:13px}
-.container{padding:15px;max-width:1100px;margin:auto}.products{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.card{background:#151515;border:1px solid #252525;border-radius:12px;overflow:hidden;text-align:center;padding-bottom:10px;transition:.2s}.card:hover{transform:translateY(-3px);border-color:#555}.card img{width:100%;height:105px;object-fit:cover;display:block}.cp{font-size:16px;font-weight:bold;margin:9px 3px 5px}.price{color:#ddd;font-size:13px;margin-bottom:8px}.select-btn{width:85%;border:none;border-radius:8px;padding:8px 3px;background:#292929;color:white;cursor:pointer;font-size:13px}.select-btn:active{transform:scale(.96)}
-.cart-box{margin-top:25px;background:#111;border:1px solid #282828;border-radius:14px;padding:16px}.cart-title{font-size:20px;font-weight:bold;margin-bottom:12px}.cart-item{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid #252525;font-size:13px}.qty{display:flex;align-items:center;gap:7px}.qty button{width:28px;height:28px;border:none;border-radius:6px;background:#292929;color:white;font-size:18px}.total{margin-top:15px;font-size:18px;font-weight:bold}
-.discount-area{display:flex;gap:7px;margin-top:14px}.discount-area input{flex:1;background:#1b1b1b;color:white;border:1px solid #333;border-radius:8px;padding:11px;outline:none;direction:ltr}.discount-area button{border:none;border-radius:8px;padding:0 15px;background:#303030;color:white}.discount-message{margin-top:8px;font-size:13px;color:#bbb}
-.order-form{display:none;margin-top:20px;background:#111;border:1px solid #282828;border-radius:14px;padding:16px}.order-form h2{margin-bottom:15px}.order-form input{width:100%;margin-bottom:10px;background:#1a1a1a;color:white;border:1px solid #333;border-radius:8px;padding:12px;outline:none}.account-type{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}.account-type label{background:#1a1a1a;border:1px solid #333;border-radius:8px;padding:12px;text-align:center;cursor:pointer}.account-type input{display:none}.account-type input:checked+span{color:white;font-weight:bold}.security-message{background:#181818;border:1px solid #333;border-radius:9px;padding:12px;margin-bottom:12px;line-height:1.8;font-size:13px;color:#ddd}.submit-btn{width:100%;border:none;border-radius:9px;padding:13px;background:#292929;color:white;font-size:15px;cursor:pointer}.empty{color:#777;font-size:13px}
-@media(max-width:600px){.products{grid-template-columns:repeat(4,1fr);gap:7px}.card{border-radius:8px}.card img{height:78px}.cp{font-size:12px}.price{font-size:10px}.select-btn{font-size:10px;padding:6px 2px}.logo{font-size:25px}}
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+--bg:#080d22;
+--bg2:#0d1530;
+--card:#131c38;
+--card2:#17213f;
+--line:#293457;
+--text:#fff;
+--muted:#aab4d0;
+--accent1:#6647ef;
+--accent2:#20b8ff;
+}
+
+body{
+background:linear-gradient(180deg,#080d22,#0b1730 55%,#071126);
+color:var(--text);
+font-family:Tahoma,Arial,sans-serif;
+min-height:100vh;
+transition:.25s
+}
+
+body.light{
+--bg:#eef3ff;
+--bg2:#e6ecfb;
+--card:#fff;
+--card2:#f4f6ff;
+--line:#d2d9eb;
+--text:#12182a;
+--muted:#66708a;
+background:linear-gradient(180deg,#f4f7ff,#e7edfb)
+}
+
+button,input{
+font-family:inherit
+}
+
+#welcome{
+position:fixed;
+inset:0;
+background:#050713;
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:1000;
+animation:welcomeOut 1s ease 2.2s forwards
+}
+
+#welcome h1{
+font-size:35px;
+color:white;
+animation:welcomeIn 1.2s ease
+}
+
+@keyframes welcomeIn{
+from{opacity:0;transform:scale(.7)}
+to{opacity:1;transform:scale(1)}
+}
+
+@keyframes welcomeOut{
+to{opacity:0;visibility:hidden}
+}
+
+header{
+padding:15px;
+background:rgba(8,13,34,.94);
+border-bottom:1px solid var(--line);
+position:sticky;
+top:0;
+z-index:20
+}
+
+.topbar{
+max-width:1100px;
+margin:auto;
+display:flex;
+align-items:center;
+gap:10px;
+justify-content:space-between
+}
+
+.logo{
+font-size:28px;
+font-weight:bold;
+background:linear-gradient(90deg,#20cfff,#9b55ff);
+-webkit-background-clip:text;
+background-clip:text;
+color:transparent
+}
+
+.subtitle{
+margin-top:5px;
+color:var(--muted);
+font-size:12px
+}
+
+.header-actions{
+display:flex;
+gap:8px
+}
+
+.icon-btn{
+width:44px;
+height:44px;
+border:1px solid var(--line);
+border-radius:13px;
+background:var(--card);
+color:var(--text);
+font-size:22px;
+cursor:pointer
+}
+
+.banners{
+display:flex;
+gap:8px;
+overflow:auto;
+margin:12px auto 0;
+max-width:1100px;
+padding-bottom:2px
+}
+
+.banner{
+white-space:nowrap;
+background:linear-gradient(100deg,#182343,#242454);
+border:1px solid #303a63;
+border-radius:12px;
+padding:9px 14px;
+font-size:12px;
+color:#dce4ff
+}
+
+.container{
+padding:18px 15px;
+max-width:1100px;
+margin:auto
+}
+
+.products{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:14px
+}
+
+.card{
+background:linear-gradient(145deg,var(--card),var(--card2));
+border:1px solid var(--line);
+border-radius:15px;
+overflow:hidden;
+text-align:center;
+padding-bottom:14px;
+transition:.2s;
+box-shadow:0 8px 25px rgba(0,0,0,.12)
+}
+
+.card:hover{
+transform:translateY(-3px)
+}
+
+.card img{
+width:100%;
+height:145px;
+object-fit:cover;
+display:block
+}
+
+.cp{
+font-size:19px;
+font-weight:bold;
+margin:11px 3px 6px
+}
+
+.price{
+color:var(--muted);
+font-size:15px;
+margin-bottom:10px
+}
+
+.select-btn,
+.submit-btn{
+border:none;
+border-radius:10px;
+padding:11px;
+background:linear-gradient(100deg,var(--accent1),#8451ef);
+color:white;
+cursor:pointer;
+font-size:14px;
+font-weight:bold
+}
+
+.select-btn{
+width:88%
+}
+
+.select-btn:active{
+transform:scale(.97)
+}
+
+.cart-box,
+.order-form,
+.admin-panel{
+margin-top:25px;
+background:linear-gradient(145deg,var(--card),var(--card2));
+border:1px solid var(--line);
+border-radius:16px;
+padding:17px;
+box-shadow:0 8px 25px rgba(0,0,0,.12)
+}
+
+.cart-title,
+.order-form h2{
+font-size:20px;
+font-weight:bold;
+margin-bottom:13px
+}
+
+.cart-item{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:8px;
+padding:11px 0;
+border-bottom:1px solid var(--line);
+font-size:14px
+}
+
+.qty{
+display:flex;
+align-items:center;
+gap:7px
+}
+
+.qty button{
+width:30px;
+height:30px;
+border:none;
+border-radius:7px;
+background:#253052;
+color:white;
+font-size:18px;
+cursor:pointer
+}
+
+.total{
+margin-top:15px;
+font-size:18px;
+font-weight:bold
+}
+
+.discount-area{
+display:flex;
+gap:7px;
+margin-top:14px
+}
+
+.discount-area input,
+.admin-input{
+flex:1;
+background:var(--card2);
+color:var(--text);
+border:1px solid var(--line);
+border-radius:9px;
+padding:11px;
+outline:none
+}
+
+.discount-area input{
+direction:ltr
+}
+
+.discount-area button,
+.admin-small-btn{
+border:none;
+border-radius:9px;
+padding:0 15px;
+background:#283354;
+color:white;
+cursor:pointer
+}
+
+.discount-message{
+margin-top:8px;
+font-size:13px;
+color:var(--muted)
+}
+
+.order-form{
+display:none
+}
+
+.order-form input:not([type=radio]){
+width:100%;
+margin-bottom:10px;
+background:var(--card2);
+color:var(--text);
+border:1px solid var(--line);
+border-radius:9px;
+padding:12px;
+outline:none
+}
+
+.account-type{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+margin-bottom:12px
+}
+
+.account-type label{
+background:var(--card2);
+border:1px solid var(--line);
+border-radius:9px;
+padding:12px;
+text-align:center;
+cursor:pointer
+}
+
+.account-type input{
+display:none
+}
+
+.account-type input:checked+span{
+font-weight:bold;
+color:#72cfff
+}
+
+.security-message{
+background:rgba(34,47,79,.65);
+border:1px solid var(--line);
+border-radius:9px;
+padding:12px;
+margin-bottom:12px;
+line-height:1.8;
+font-size:13px;
+color:var(--muted)
+}
+
+.submit-btn{
+width:100%
+}
+
+.empty{
+color:var(--muted);
+font-size:13px
+}
+
+.admin-area{
+margin-top:35px;
+text-align:center
+}
+
+.gear-admin{
+border:1px solid var(--line);
+background:var(--card);
+color:var(--muted);
+border-radius:10px;
+padding:8px 14px;
+cursor:pointer;
+font-size:13px
+}
+
+.modal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.72);
+z-index:2000;
+align-items:center;
+justify-content:center;
+padding:20px
+}
+
+.modal-box{
+width:min(430px,100%);
+background:var(--card);
+border:1px solid var(--line);
+border-radius:16px;
+padding:18px
+}
+
+.modal-box h3{
+margin-bottom:12px
+}
+
+/* کادر رمز و چشم در سمت راست */
+.password-box{
+position:relative;
+width:100%;
+margin-bottom:10px
+}
+
+.password-box input{
+width:100%;
+background:var(--card2);
+color:var(--text);
+border:1px solid var(--line);
+border-radius:9px;
+padding:12px 48px 12px 12px;
+outline:none;
+direction:ltr;
+margin:0
+}
+
+.password-box button{
+position:absolute;
+right:8px;
+top:50%;
+transform:translateY(-50%);
+border:none;
+background:transparent;
+color:var(--muted);
+font-size:20px;
+cursor:pointer;
+padding:4px;
+z-index:2
+}
+
+.modal-actions{
+display:flex;
+gap:8px
+}
+
+.modal-actions button{
+flex:1;
+border:none;
+border-radius:9px;
+padding:11px;
+cursor:pointer;
+background:#293557;
+color:white
+}
+
+.modal-actions .primary{
+background:linear-gradient(100deg,var(--accent1),#8451ef)
+}
+
+.dashboard{
+display:none
+}
+
+.dash-title{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px
+}
+
+.close-admin{
+border:none;
+background:#293557;
+color:white;
+border-radius:8px;
+padding:8px 12px;
+cursor:pointer
+}
+
+.stats{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px
+}
+
+.stat{
+background:var(--card2);
+border:1px solid var(--line);
+border-radius:12px;
+padding:17px;
+text-align:center
+}
+
+.stat-num{
+font-size:27px;
+font-weight:bold;
+margin-bottom:5px
+}
+
+.stat-label{
+color:var(--muted);
+font-size:12px
+}
+
+.admin-section{
+margin-top:18px
+}
+
+.admin-section h3{
+margin-bottom:10px
+}
+
+.cp-admin{
+display:grid;
+grid-template-columns:1fr 1fr auto;
+gap:8px;
+align-items:center;
+margin-bottom:8px
+}
+
+.cp-admin input{
+min-width:0;
+background:var(--card2);
+color:var(--text);
+border:1px solid var(--line);
+border-radius:8px;
+padding:10px;
+outline:none
+}
+
+.add-cp{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px
+}
+
+.add-cp button{
+grid-column:1/-1;
+border:none;
+border-radius:9px;
+padding:11px;
+background:linear-gradient(100deg,var(--accent1),#8451ef);
+color:white;
+cursor:pointer;
+font-weight:bold
+}
+
+.notice{
+margin-top:12px;
+color:#ffcf75;
+font-size:12px;
+line-height:1.8
+}
+
+.success-code{
+display:none;
+margin-top:15px;
+background:rgba(25,194,145,.1);
+border:1px solid #27b98f;
+border-radius:12px;
+padding:14px;
+text-align:center
+}
+
+.success-code strong{
+display:block;
+font-size:22px;
+letter-spacing:2px;
+margin:8px 0
+}
+
+.success-code p{
+font-size:12px;
+color:var(--muted);
+line-height:1.8
+}
+
+/* دکمه پشتیبانی شناور */
+.support-btn{
+position:fixed;
+right:18px;
+bottom:18px;
+width:72px;
+height:72px;
+border:none;
+border-radius:50%;
+background:linear-gradient(135deg,#6647ef,#20b8ff);
+color:white;
+font-family:Tahoma,Arial,sans-serif;
+font-size:12px;
+font-weight:bold;
+cursor:pointer;
+z-index:1500;
+box-shadow:0 6px 22px rgba(0,0,0,.35);
+transition:.15s
+}
+
+.support-btn:active{
+transform:scale(.94)
+}
+
+.support-popup{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.65);
+z-index:2500;
+align-items:center;
+justify-content:center;
+padding:20px
+}
+
+.support-box{
+width:min(380px,100%);
+background:var(--card);
+border:1px solid var(--line);
+border-radius:18px;
+padding:22px;
+text-align:center;
+box-shadow:0 12px 40px rgba(0,0,0,.3)
+}
+
+.support-box h3{
+margin-bottom:12px
+}
+
+.support-box p{
+color:var(--muted);
+font-size:13px;
+line-height:1.8;
+margin-bottom:12px
+}
+
+.support-box a{
+display:block;
+direction:ltr;
+font-size:22px;
+font-weight:bold;
+color:#20b8ff;
+text-decoration:none;
+margin:15px 0 18px
+}
+
+.support-box button{
+border:none;
+border-radius:9px;
+padding:10px 25px;
+background:#293557;
+color:white;
+cursor:pointer
+}
+
+@media(max-width:600px){
+
+.card img{
+height:115px
+}
+
+.cp{
+font-size:17px
+}
+
+.price{
+font-size:13px
+}
+
+.logo{
+font-size:23px
+}
+
+.banner{
+font-size:11px
+}
+
+.container{
+padding:14px 10px
+}
+
+.support-btn{
+right:14px;
+bottom:14px;
+width:68px;
+height:68px;
+font-size:11px
+}
+
+}
 </style>
 </head>
+
 <body>
 
-<div id="welcome"><h1>به کالاف جم خوش آمدید</h1></div>
+<div id="welcome">
+<h1>به کالاف جم خوش آمدید</h1>
+</div>
 
 <header>
+
+<div class="topbar">
+
+<div>
 <div class="logo">کالاف جم</div>
 <div class="subtitle">فروش CP کالاف دیوتی موبایل</div>
+</div>
+
+<div class="header-actions">
+
+<button
+class="icon-btn"
+id="themeBtn"
+onclick="toggleTheme()"
+title="حالت شب و روز">
+🌙
+</button>
+
+<button
+class="icon-btn"
+onclick="openLogin()"
+title="مدیریت">
+⚙️
+</button>
+
+</div>
+
+</div>
+
+<div class="banners">
+
+<div class="banner">🔐 ثبت امن سفارش</div>
+<div class="banner">⚡ ارسال سریع CP</div>
+<div class="banner">🎮 سفارش آسان</div>
+<div class="banner">✅ پشتیبانی سفارش</div>
+
+</div>
+
 </header>
 
 <div class="container">
+
 <div class="products" id="products"></div>
 
 <div class="cart-box">
-<div class="cart-title">🛒 سبد خرید</div>
-<div id="cartItems"><div class="empty">سبد خرید خالی است.</div></div>
 
-<div class="total">مبلغ کل: <span id="total">۰</span> تومان</div>
-
-<div class="discount-area">
-<input id="discountCode" placeholder="مثلاً HD2P50">
-<button onclick="applyDiscount()">اعمال</button>
+<div class="cart-title">
+🛒 سبد خرید
 </div>
 
-<div class="discount-message" id="discountMessage"></div>
+<div id="cartItems">
+<div class="empty">
+سبد خرید خالی است.
+</div>
+</div>
 
-<button class="submit-btn" style="margin-top:15px;" onclick="showOrderForm()">
-ادامه و ثبت درخواست خرید
+<div class="total">
+مبلغ کل:
+<span id="total">۰</span>
+تومان
+</div>
+
+<div class="discount-area">
+
+<input
+id="discountCode"
+placeholder="کد تخفیف را وارد کنید...">
+
+<button onclick="applyDiscount()">
+اعمال
 </button>
+
+</div>
+
+<div
+class="discount-message"
+id="discountMessage">
+</div>
+
+<button
+class="submit-btn"
+style="margin-top:15px;"
+onclick="showOrderForm()">
+
+ادامه و ثبت درخواست خرید
+
+</button>
+
 </div>
 
 <div class="order-form" id="orderForm">
-<h2>📝 ثبت درخواست خرید</h2>
 
-<form id="orderFormElement" action="https://formspree.io/f/myeyarje" method="POST">
+<h2>
+📝 ثبت درخواست خرید
+</h2>
 
-<input name="نام" id="firstName" placeholder="نام" required>
+<form id="orderFormElement">
 
-<input name="نام خانوادگی" id="lastName" placeholder="نام خانوادگی" required>
+<input
+name="نام"
+id="firstName"
+placeholder="نام"
+required>
 
-<input name="شماره موبایل" id="phone" type="tel" placeholder="شماره موبایل" required>
+<input
+name="نام خانوادگی"
+id="lastName"
+placeholder="نام خانوادگی"
+required>
+
+<input
+name="شماره موبایل"
+id="phone"
+type="tel"
+placeholder="شماره موبایل"
+required>
 
 <div class="account-type">
 
 <label>
-<input type="radio" name="نوع سیو" value="اکتیویژن" required>
-<span>سیو روی اکتیویژن</span>
+
+<input
+type="radio"
+name="نوع سیو"
+value="اکتیویژن"
+required>
+
+<span>
+سیو روی اکتیویژن
+</span>
+
 </label>
 
 <label>
-<input type="radio" name="نوع سیو" value="گوگل">
-<span>سیو روی گوگل</span>
+
+<input
+type="radio"
+name="نوع سیو"
+value="گوگل">
+
+<span>
+سیو روی گوگل
+</span>
+
 </label>
 
 </div>
 
-<input name="نام داخل بازی" id="gameName" placeholder="نام داخل بازی" required>
+<input
+name="نام داخل بازی"
+id="gameName"
+placeholder="نام داخل بازی"
+required>
 
 <div class="security-message">
+
 🔐 برای حفظ امنیت حساب شما، اطلاعات ورود خود را داخل سایت وارد نکنید.
 پس از ثبت سفارش، برای هماهنگی ادامه فرایند با پشتیبانی تماس بگیرید.
+
 </div>
 
-<input type="hidden" name="جزئیات سفارش" id="orderDetails">
+<input
+type="hidden"
+name="جزئیات سفارش"
+id="orderDetails">
 
-<input type="hidden" name="مبلغ نهایی" id="orderTotal">
+<input
+type="hidden"
+name="مبلغ نهایی"
+id="orderTotal">
 
-<input type="hidden" name="تخفیف" id="discountUsed">
+<input
+type="hidden"
+name="تخفیف"
+id="discountUsed">
 
-<button class="submit-btn" type="submit">
+<input
+type="hidden"
+name="کد سفارش"
+id="orderCode">
+
+<button
+class="submit-btn"
+id="submitOrder"
+type="submit">
+
 ثبت درخواست خرید
+
 </button>
 
 </form>
+
+<div
+class="success-code"
+id="successCode">
+
+سفارش شما با موفقیت ثبت شد.
+
+<strong id="codeDisplay"></strong>
+
+<p>
+این کد سفارش را نگه دارید و برای پیگیری به پشتیبانی اعلام کنید.
+</p>
+
+<p id="cpDisplay"></p>
+
 </div>
+
+</div>
+
+<div class="admin-area">
+
+<button
+class="gear-admin"
+onclick="openLogin()">
+
+⚙️ پنل مدیریت
+
+</button>
+
+</div>
+
+<div
+class="admin-panel dashboard"
+id="dashboard">
+
+<div class="dash-title">
+
+<h2>
+پنل مدیریت
+</h2>
+
+<button
+class="close-admin"
+onclick="closeDashboard()">
+
+خروج
+
+</button>
+
+</div>
+
+<div class="stats">
+
+<div class="stat">
+
+<div
+class="stat-num"
+id="orderCount">
+۰
+</div>
+
+<div class="stat-label">
+کل سفارش‌ها
+</div>
+
+</div>
+
+<div class="stat">
+
+<div
+class="stat-num"
+id="activeCpCount">
+۰
+</div>
+
+<div class="stat-label">
+تعداد بسته‌های CP
+</div>
+
+</div>
+
+</div>
+
+<div class="admin-section">
+
+<h3>
+🪙 مدیریت CP و قیمت‌ها
+</h3>
+
+<div id="cpAdminList"></div>
+
+<div class="add-cp">
+
+<input
+id="newCp"
+type="number"
+placeholder="مقدار CP">
+
+<input
+id="newPrice"
+type="number"
+placeholder="قیمت به تومان">
+
+<button onclick="addCp()">
+➕ افزودن CP
+</button>
+
+</div>
+
+</div>
+
+<div class="notice">
+
+⚠️ تغییر قیمت‌ها و تعداد سفارش‌ها در همین مرورگر ذخیره می‌شوند و به‌صورت آنلاین بین دستگاه‌های مختلف همگام نمی‌شوند.
+
+</div>
+
+</div>
+
+</div>
+
+<!-- پنجره پشتیبانی -->
+<div class="support-popup" id="supportPopup">
+
+<div class="support-box">
+
+<h3>
+📞 پشتیبانی کالاف جم
+</h3>
+
+<p>
+برای دریافت پشتیبانی با شماره زیر تماس بگیرید:
+</p>
+
+<a href="tel:09961133142">
+۰۹۹۶۱۱۳۳۱۴۲
+</a>
+
+<button onclick="closeSupport()">
+بستن
+</button>
+
+</div>
+
+</div>
+
+<!-- دکمه شناور پشتیبانی -->
+<button
+class="support-btn"
+onclick="showSupport()">
+
+پشتیبانی
+
+</button>
+
+<div class="modal" id="loginModal">
+
+<div class="modal-box">
+
+<h3>
+🔐 ورود به پنل مدیریت
+</h3>
+
+<div class="password-box">
+
+<input
+id="adminPassword"
+type="password"
+placeholder="رمز پنل">
+
+<button
+type="button"
+onclick="togglePassword()"
+id="eyeBtn"
+title="نمایش رمز">
+
+👁️
+
+</button>
+
+</div>
+
+<div class="modal-actions">
+
+<button onclick="closeLogin()">
+انصراف
+</button>
+
+<button
+class="primary"
+onclick="login()">
+
+ورود
+
+</button>
+
+</div>
+
+<div
+id="loginError"
+style="color:#ff6684;font-size:12px;margin-top:9px">
+</div>
+
+</div>
+
 </div>
 
 <script>
 
-const products=[
+const FORMSPREE_ENDPOINT =
+"https://formspree.io/f/myeyarje";
+
+const ADMIN_PASSWORD_HASH =
+"79bd88a4de571655861f73acc2c7feb993a67331ba30ee5d6fe8a60a1c66ae2d";
+
+const defaultProducts = [
+
 [80,456000],
 [160,663000],
 [240,870000],
@@ -121,137 +1113,243 @@ const products=[
 [5880,9749000],
 [7400,11399000],
 [10800,15899000]
+
 ];
 
-let cart={},discount=0;
+let products =
+JSON.parse(
+localStorage.getItem("calaf_products") || "null"
+) || defaultProducts;
 
-const productsBox=document.getElementById("products");
+let cart = {};
+let discount = 0;
+
+const productsBox =
+document.getElementById("products");
+
+function saveProducts(){
+
+localStorage.setItem(
+"calaf_products",
+JSON.stringify(products)
+);
+
+}
+
+function renderProducts(){
+
+productsBox.innerHTML = "";
 
 products.forEach((product,index)=>{
 
-const cp=product[0];
-const price=product[1];
+const card =
+document.createElement("div");
 
-const card=document.createElement("div");
+card.className = "card";
 
-card.className="card";
+card.innerHTML = `
 
-card.innerHTML=`
-<img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=500&q=80" alt="Call of Duty">
-<div class="cp">${cp.toLocaleString("fa-IR")} CP</div>
-<div class="price">${price.toLocaleString("fa-IR")} تومان</div>
-<button class="select-btn" onclick="addToCart(${index})">+ انتخاب</button>
+<img
+src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=500&q=80"
+alt="Call of Duty">
+
+<div class="cp">
+
+${Number(product[0]).toLocaleString("fa-IR")}
+CP
+
+</div>
+
+<div class="price">
+
+${Number(product[1]).toLocaleString("fa-IR")}
+تومان
+
+</div>
+
+<button
+class="select-btn"
+onclick="addToCart(${index})">
+
++ انتخاب
+
+</button>
+
 `;
 
 productsBox.appendChild(card);
 
 });
 
-function addToCart(i){
-cart[i]=(cart[i]||0)+1;
 renderCart();
+
+}
+
+function addToCart(i){
+
+cart[i] =
+(cart[i] || 0) + 1;
+
+renderCart();
+
 }
 
 function decrease(i){
-if(cart[i]>1) cart[i]--;
-else delete cart[i];
+
+if(cart[i] > 1)
+cart[i]--;
+else
+delete cart[i];
 
 renderCart();
+
 }
 
 function getCartTotal(){
 
-let t=0;
+let t = 0;
 
 Object.keys(cart).forEach(i=>{
-t+=products[i][1]*cart[i];
+
+t +=
+products[i][1] *
+cart[i];
+
 });
 
 return t;
+
 }
 
 function renderCart(){
 
-const box=document.getElementById("cartItems");
+const box =
+document.getElementById("cartItems");
 
-box.innerHTML="";
+box.innerHTML = "";
 
-let has=false;
+let has = false;
 
 Object.keys(cart).forEach(i=>{
 
-has=true;
+has = true;
 
-const q=cart[i];
+const q = cart[i];
 
-const item=document.createElement("div");
+const item =
+document.createElement("div");
 
-item.className="cart-item";
+item.className = "cart-item";
 
-item.innerHTML=`
+item.innerHTML = `
+
 <div>
-${products[i][0].toLocaleString("fa-IR")} CP × ${q.toLocaleString("fa-IR")}
+
+${Number(products[i][0]).toLocaleString("fa-IR")}
+CP ×
+${q.toLocaleString("fa-IR")}
+
 </div>
 
 <div class="qty">
 
-<button type="button" onclick="addToCart(${i})">+</button>
+<button
+type="button"
+onclick="addToCart(${i})">
 
-<span>${q.toLocaleString("fa-IR")}</span>
++
 
-<button type="button" onclick="decrease(${i})">−</button>
+</button>
+
+<span>
+
+${q.toLocaleString("fa-IR")}
+
+</span>
+
+<button
+type="button"
+onclick="decrease(${i})">
+
+−
+
+</button>
 
 </div>
+
 `;
 
 box.appendChild(item);
 
 });
 
-if(!has)
-box.innerHTML='<div class="empty">سبد خرید خالی است.</div>';
+if(!has){
 
-document.getElementById("total").textContent=
-Math.max(0,getCartTotal()-discount).toLocaleString("fa-IR");
+box.innerHTML =
+'<div class="empty">سبد خرید خالی است.</div>';
+
+}
+
+document.getElementById("total").textContent =
+
+Math.max(
+0,
+getCartTotal() - discount
+).toLocaleString("fa-IR");
 
 }
 
 function applyDiscount(){
 
-const code=
-document.getElementById("discountCode").value.trim().toUpperCase();
+const code =
+document
+.getElementById("discountCode")
+.value
+.trim()
+.toUpperCase();
 
-const m=document.getElementById("discountMessage");
+const m =
+document.getElementById("discountMessage");
 
-const x=code.match(/^HD2P(\d+)$/);
+const x =
+code.match(/^HD2P(\d+)$/);
 
 if(!x){
 
-discount=0;
+discount = 0;
 
-m.textContent="کد تخفیف نامعتبر است.";
+m.textContent =
+"کد تخفیف نامعتبر است.";
 
 renderCart();
 
 return;
+
 }
 
-const total=getCartTotal();
+const total =
+getCartTotal();
 
 if(!total){
 
-discount=0;
+discount = 0;
 
-m.textContent="ابتدا یک محصول به سبد خرید اضافه کنید.";
+m.textContent =
+"ابتدا یک محصول به سبد خرید اضافه کنید.";
 
 renderCart();
 
 return;
+
 }
 
-discount=Math.min(parseInt(x[1])*1000,total);
+discount =
+Math.min(
+parseInt(x[1]) * 1000,
+total
+);
 
-m.textContent=
+m.textContent =
 `${discount.toLocaleString("fa-IR")} تومان تخفیف اعمال شد.`;
 
 renderCart();
@@ -262,53 +1360,558 @@ function showOrderForm(){
 
 if(!Object.keys(cart).length){
 
-alert("سبد خرید شما خالی است.");
+alert(
+"سبد خرید شما خالی است."
+);
 
 return;
 
 }
 
-document.getElementById("orderForm").style.display="block";
+document.getElementById(
+"orderForm"
+).style.display = "block";
 
-document.getElementById("orderForm")
-.scrollIntoView({behavior:"smooth"});
+document.getElementById(
+"successCode"
+).style.display = "none";
+
+document.getElementById(
+"orderForm"
+).scrollIntoView({
+behavior:"smooth"
+});
 
 }
 
-document.getElementById("orderFormElement")
-.addEventListener("submit",function(e){
+function makeOrderCode(){
 
-if(!Object.keys(cart).length){
+const chars =
+"ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+let s = "CJ-";
+
+for(let i=0;i<8;i++){
+
+s +=
+chars[
+Math.floor(
+Math.random() * chars.length
+)
+];
+
+}
+
+return s;
+
+}
+
+async function sha256(text){
+
+const data =
+new TextEncoder().encode(text);
+
+const hash =
+await crypto.subtle.digest(
+"SHA-256",
+data
+);
+
+return Array.from(
+new Uint8Array(hash)
+)
+.map(
+b => b.toString(16).padStart(2,"0")
+)
+.join("");
+
+}
+
+/* نمایش و مخفی کردن رمز */
+
+function togglePassword(){
+
+const input =
+document.getElementById(
+"adminPassword"
+);
+
+const eye =
+document.getElementById(
+"eyeBtn"
+);
+
+if(input.type === "password"){
+
+input.type = "text";
+
+eye.textContent = "🙈";
+
+eye.title = "مخفی کردن رمز";
+
+}else{
+
+input.type = "password";
+
+eye.textContent = "👁️";
+
+eye.title = "نمایش رمز";
+
+}
+
+}
+
+/* پشتیبانی */
+
+function showSupport(){
+
+document.getElementById(
+"supportPopup"
+).style.display = "flex";
+
+}
+
+function closeSupport(){
+
+document.getElementById(
+"supportPopup"
+).style.display = "none";
+
+}
+
+document
+.getElementById("orderFormElement")
+.addEventListener(
+"submit",
+async function(e){
 
 e.preventDefault();
 
-alert("سبد خرید خالی است.");
+if(!Object.keys(cart).length){
+
+alert(
+"سبد خرید خالی است."
+);
 
 return;
 
 }
 
-let d=[];
+const btn =
+document.getElementById(
+"submitOrder"
+);
+
+btn.disabled = true;
+
+btn.textContent =
+"در حال ارسال...";
+
+const code =
+makeOrderCode();
+
+let d = [];
 
 Object.keys(cart).forEach(i=>{
 
 d.push(
-`${products[i][0].toLocaleString("fa-IR")} CP × ${cart[i].toLocaleString("fa-IR")}`
+
+`${Number(products[i][0]).toLocaleString("fa-IR")} CP × ${cart[i].toLocaleString("fa-IR")}`
+
 );
 
 });
 
-document.getElementById("orderDetails").value=d.join("، ");
+document.getElementById(
+"orderDetails"
+).value =
+d.join("، ");
 
-document.getElementById("orderTotal").value=
-Math.max(0,getCartTotal()-discount).toLocaleString("fa-IR")+" تومان";
+document.getElementById(
+"orderTotal"
+).value =
 
-document.getElementById("discountUsed").value=
-discount.toLocaleString("fa-IR")+" تومان";
+Math.max(
+0,
+getCartTotal() - discount
+).toLocaleString("fa-IR")
++
+" تومان";
+
+document.getElementById(
+"discountUsed"
+).value =
+
+discount.toLocaleString("fa-IR")
++
+" تومان";
+
+document.getElementById(
+"orderCode"
+).value =
+code;
+
+try{
+
+const response =
+await fetch(
+FORMSPREE_ENDPOINT,
+{
+method:"POST",
+body:new FormData(this),
+headers:{
+Accept:"application/json"
+}
+}
+);
+
+if(!response.ok)
+throw new Error("send failed");
+
+const oldCount =
+parseInt(
+localStorage.getItem(
+"calaf_order_count"
+) || "0"
+);
+
+localStorage.setItem(
+"calaf_order_count",
+String(oldCount + 1)
+);
+
+document.getElementById(
+"codeDisplay"
+).textContent =
+code;
+
+document.getElementById(
+"cpDisplay"
+).textContent =
+"محصول سفارش: " +
+d.join("، ");
+
+document.getElementById(
+"successCode"
+).style.display =
+"block";
+
+this.style.display =
+"none";
+
+cart = {};
+
+discount = 0;
+
+renderCart();
+
+updateDashboard();
+
+}
+catch(err){
+
+alert(
+"ارسال سفارش انجام نشد. لطفاً اینترنت را بررسی کنید و دوباره تلاش کنید."
+);
+
+btn.disabled = false;
+
+btn.textContent =
+"ثبت درخواست خرید";
+
+}
+
+}
+);
+
+function toggleTheme(){
+
+document.body.classList.toggle(
+"light"
+);
+
+const light =
+document.body.classList.contains(
+"light"
+);
+
+localStorage.setItem(
+"calaf_theme",
+light ? "light" : "dark"
+);
+
+document.getElementById(
+"themeBtn"
+).textContent =
+light ? "☀️" : "🌙";
+
+}
+
+if(
+localStorage.getItem(
+"calaf_theme"
+) === "light"
+){
+
+document.body.classList.add(
+"light"
+);
+
+document.getElementById(
+"themeBtn"
+).textContent =
+"☀️";
+
+}
+
+function openLogin(){
+
+document.getElementById(
+"loginModal"
+).style.display =
+"flex";
+
+document.getElementById(
+"adminPassword"
+).value = "";
+
+document.getElementById(
+"loginError"
+).textContent = "";
+
+document.getElementById(
+"adminPassword"
+).type =
+"password";
+
+document.getElementById(
+"eyeBtn"
+).textContent =
+"👁️";
+
+setTimeout(
+() =>
+document.getElementById(
+"adminPassword"
+).focus(),
+100
+);
+
+}
+
+function closeLogin(){
+
+document.getElementById(
+"loginModal"
+).style.display =
+"none";
+
+}
+
+async function login(){
+
+const password =
+document.getElementById(
+"adminPassword"
+).value;
+
+const hash =
+await sha256(password);
+
+if(
+hash !== ADMIN_PASSWORD_HASH
+){
+
+document.getElementById(
+"loginError"
+).textContent =
+"رمز عبور اشتباه است.";
+
+return;
+
+}
+
+closeLogin();
+
+document.getElementById(
+"dashboard"
+).style.display =
+"block";
+
+updateDashboard();
+
+document.getElementById(
+"dashboard"
+).scrollIntoView({
+behavior:"smooth"
+});
+
+}
+
+function closeDashboard(){
+
+document.getElementById(
+"dashboard"
+).style.display =
+"none";
+
+}
+
+function updateDashboard(){
+
+document.getElementById(
+"orderCount"
+).textContent =
+
+Number(
+localStorage.getItem(
+"calaf_order_count"
+) || "0"
+).toLocaleString("fa-IR");
+
+document.getElementById(
+"activeCpCount"
+).textContent =
+
+products.length.toLocaleString(
+"fa-IR"
+);
+
+renderCpAdmin();
+
+}
+
+function renderCpAdmin(){
+
+const box =
+document.getElementById(
+"cpAdminList"
+);
+
+box.innerHTML = "";
+
+products.forEach((p,i)=>{
+
+const row =
+document.createElement("div");
+
+row.className =
+"cp-admin";
+
+row.innerHTML = `
+
+<input
+type="number"
+value="${p[0]}"
+aria-label="CP">
+
+<input
+type="number"
+value="${p[1]}"
+aria-label="قیمت">
+
+<button
+class="admin-small-btn"
+onclick="saveCp(${i},this)">
+
+ذخیره
+
+</button>
+
+`;
+
+box.appendChild(row);
 
 });
 
-renderCart();
+}
+
+function saveCp(i,btn){
+
+const inputs =
+btn.parentElement
+.querySelectorAll("input");
+
+const cp =
+parseInt(inputs[0].value);
+
+const price =
+parseInt(inputs[1].value);
+
+if(!cp || !price){
+
+alert(
+"مقدار CP و قیمت را درست وارد کنید."
+);
+
+return;
+
+}
+
+products[i] =
+[cp,price];
+
+saveProducts();
+
+renderProducts();
+
+updateDashboard();
+
+alert(
+"قیمت ذخیره شد."
+);
+
+}
+
+function addCp(){
+
+const cp =
+parseInt(
+document.getElementById(
+"newCp"
+).value
+);
+
+const price =
+parseInt(
+document.getElementById(
+"newPrice"
+).value
+);
+
+if(!cp || !price){
+
+alert(
+"مقدار CP و قیمت را وارد کنید."
+);
+
+return;
+
+}
+
+products.push(
+[cp,price]
+);
+
+saveProducts();
+
+document.getElementById(
+"newCp"
+).value = "";
+
+document.getElementById(
+"newPrice"
+).value = "";
+
+renderProducts();
+
+updateDashboard();
+
+}
+
+renderProducts();
+
+updateDashboard();
 
 </script>
 
